@@ -1,1 +1,1 @@
-web: gunicorn -b :$5000 first:app
+web: gunicorn first:app
