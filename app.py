@@ -7,11 +7,9 @@ import Call as cl
 import adr_operations as de
 app =Flask(__name__)
 
-print('start')
 B_model = pickle.load(open('RF_model.pkl','rb'))
 S_model = pickle.load(open('RF_Seg_model.pkl','rb'))
 
-print('end')
 output = cl.GetDetailsOfCluster("cltData.csv",1200000,'custom',2)
 
 ########################################################################################
