@@ -290,7 +290,7 @@ yearlist = de.yearList()
 @app.route('/')
 @app.route('/Workspace')
 def index():
-    return render_template('welcome.html')
+    return 'hello world'
 
 @app.route("/predict", methods=['POST','GET'])
 def predict():
