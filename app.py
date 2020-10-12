@@ -6,9 +6,12 @@ import datetime as dt
 import Call as cl
 import adr_operations as de
 app =Flask(__name__)
+
+print('start')
 B_model = pickle.load(open('RF_model.pkl','rb'))
 S_model = pickle.load(open('RF_Seg_model.pkl','rb'))
 
+print('end')
 output = cl.GetDetailsOfCluster("cltData.csv",1200000,'custom',2)
 
 ########################################################################################
@@ -253,44 +256,44 @@ cdates3 = output3[3]['canceldetails'][0]
 
 labels = []
 
-count = 0
-for keys, values in de.dictionryOutput()[0].items():
-    for i in values.keys():
-        # print(i)
-        if i == "June":
-            labels.append(i)
-            count += 1
-            break
-        else:
-            labels.append(i)
-    if count > 0:
-        break
-
-
-
-colors = [
-    "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-    "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-    "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
-
-
-season1 = list( de.financialYearPattern()[0]["season1"].values() )
-season2 = list( de.financialYearPattern()[0]["season2"].values() )
-season3 = list( de.financialYearPattern()[0]["season3"].values() )
-
-season1Total = list( de.financialYearPattern()[1]["season1"].values())
-season2Total = list( de.financialYearPattern()[1]["season2"].values())
-season3Total = list( de.financialYearPattern()[1]["season3"].values())
-
-avgValues = list(de.annualDailyRateAvg().values())
-avgTotal = list(de.annualTotalRevAvg().values())
-yearlist = de.yearList()
+# count = 0
+# for keys, values in de.dictionryOutput()[0].items():
+#     for i in values.keys():
+#         # print(i)
+#         if i == "June":
+#             labels.append(i)
+#             count += 1
+#             break
+#         else:
+#             labels.append(i)
+#     if count > 0:
+#         break
+#
+#
+#
+# colors = [
+#     "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
+#     "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
+#     "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
+#
+#
+# season1 = list( de.financialYearPattern()[0]["season1"].values() )
+# season2 = list( de.financialYearPattern()[0]["season2"].values() )
+# season3 = list( de.financialYearPattern()[0]["season3"].values() )
+#
+# season1Total = list( de.financialYearPattern()[1]["season1"].values())
+# season2Total = list( de.financialYearPattern()[1]["season2"].values())
+# season3Total = list( de.financialYearPattern()[1]["season3"].values())
+#
+# avgValues = list(de.annualDailyRateAvg().values())
+# avgTotal = list(de.annualTotalRevAvg().values())
+# yearlist = de.yearList()
 
 #yuvin code end
 @app.route('/')
 @app.route('/Workspace')
 def index():
-    return 'hello world'
+    return render_template('welcome.html')
 
 @app.route("/predict", methods=['POST','GET'])
 def predict():
