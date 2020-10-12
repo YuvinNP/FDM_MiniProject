@@ -7,6 +7,9 @@ def toCSV(csv_file):
     data_frame = pd.read_csv(csv_file)
     return data_frame
 
+import pandas as pd
+data_frame = pd.read_csv('correct_cluster.csv')
+yearlist = [int(2015), int(2016), int(2017)]
 def monthly_transaction_avg(data_frame):
     # data_frame = pd.read_csv(source_file)
     print( 'Loading...................' )
@@ -17,10 +20,10 @@ def monthly_transaction_avg(data_frame):
         'arrival_date_year', 'arrival_date_month', 'adr']]
 
 
-    for index, row in data_frame_new.iterrows():
-        year = row['arrival_date_year']
-        if year not in yearlist:
-            yearlist.append( year )
+    # for index, row in data_frame_new.iterrows():
+    #     year = row['arrival_date_year']
+    #     if year not in yearlist:
+    #         yearlist.append( year )
 
     dfList = []
     # df = "df"
@@ -30,16 +33,19 @@ def monthly_transaction_avg(data_frame):
             y = row['arrival_date_year']
             m = row['arrival_date_month']
             adr = row['adr']
-            if y == year:
-                rows.append( [y, m, adr] )
-        df = "df" + str( year )
+            if y == int(year):
+                rows.append( [int(y), m, adr] )
         df = pd.DataFrame( rows, columns=['year', 'month', 'adr'] )
+        averageList.append( df.groupby( ['year', 'month'], sort=False ).mean() )
+        sumList.append( df.groupby( ['year', 'month'], sort=False ).sum() )
+    #     dfList.append( df )
 
-        dfList.append( df )
-    for dataframes in dfList:
-        averageList.append( dataframes.groupby( ['year', 'month'], sort=False ).mean() )
-        sumList.append( dataframes.groupby( ['year', 'month'], sort=False ).sum() )
-    return averageList, sumList, yearlist
+    # print( 'Loading...................' )
+    # for dataframes in dfList:
+    #     averageList.append( dataframes.groupby( ['year', 'month'], sort=False ).mean() )
+    #     sumList.append( dataframes.groupby( ['year', 'month'], sort=False ).sum() )
+    print( 'Loading...................' )
+    return averageList, sumList
 
 output2 = monthly_transaction_avg( toCSV( 'correct_cluster.csv' ) )
 
