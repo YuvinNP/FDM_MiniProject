@@ -7,8 +7,8 @@ import Call as cl
 import adr_operations as de
 app =Flask(__name__)
 
-B_model = pickle.load(open('RF_model.pkl','rb'))
-S_model = pickle.load(open('RF_Seg_model.pkl','rb'))
+# B_model = pickle.load(open('RF_model.pkl','rb'))
+# S_model = pickle.load(open('RF_Seg_model.pkl','rb'))
 
 output = cl.GetDetailsOfCluster("cltData.csv",1200000,'custom',2)
 
@@ -293,54 +293,54 @@ labels = []
 def index():
     return render_template('welcome.html')
 
-@app.route("/predict", methods=['POST','GET'])
-def predict():
-    x_pred=[]
-    featurs=['lead_time','previous_cancellations','previous_bookings_not_canceled','booking_changes','agent','days_in_waiting_list','adr','required_car_parking_spaces','total_of_special_requests']
-    for i in featurs:
-        x_pred.append(float(request.form.get(i)))
-    x=pd.DataFrame([x_pred])
-    ariving_date = int(request.form.get('lead_time'))
-    adults=int(request.form.get('adults'))
-    babys = int(request.form.get('babys'))
-    children = int(request.form.get('children'))
-    date = request.form.get('booking_date')
-    number_of_nights=int(request.form.get('number_of_days'))
-    adr=float(request.form.get('adr'))
-
-    date_time_obj = dt.datetime.strptime(date, '%Y-%m-%d')
-    Recency=(getLatestTime(2018,1,1)-date_time_obj).days
-    Frequency=babys+children+adults
-    Monetary=adr*number_of_nights
-
-    B_pred=B_model.predict(x)
-    B_output= round(B_pred[0])
-
-    x = pd.DataFrame([[Recency, Frequency, Monetary]])
-    S_pred = S_model.predict(x)
-    S_output = round(S_pred[0])
-
-
-    output = cl.GetDetailsOfCluster("cltData.csv", 1200000, 'custom', S_output)
-    details={}
-    details['food']=max(output[S_output]['food'],key=output[S_output]['food'].get)
-    details['room']=max(output[S_output]['roomcount'],key=output[S_output]['roomcount'].get)
-    output=cl.FinancialOfferCalculations([2015,2017],['January','August','July'],40)['segment_discount_percentage']
-    details['discount']=''
-    if (S_output in output.keys()):
-        details['discount']=str(round(output[S_output]))+'%'
-    else:
-        details['discount']='No Discount'
-    details['lead_time']=ariving_date
-    if(ariving_date>25 ):
-        details['text']='The Guest passed the maximum No of arrival days in this segment ,Try to book before 25 no of days'
-    else:
-        details['text']=''
-
-    if B_pred ==1:
-        return render_template('bad.html', out=details)
-    else:
-        return render_template('good.html', out=details, child=children, adu=adults)
+# @app.route("/predict", methods=['POST','GET'])
+# def predict():
+#     x_pred=[]
+#     featurs=['lead_time','previous_cancellations','previous_bookings_not_canceled','booking_changes','agent','days_in_waiting_list','adr','required_car_parking_spaces','total_of_special_requests']
+#     for i in featurs:
+#         x_pred.append(float(request.form.get(i)))
+#     x=pd.DataFrame([x_pred])
+#     ariving_date = int(request.form.get('lead_time'))
+#     adults=int(request.form.get('adults'))
+#     babys = int(request.form.get('babys'))
+#     children = int(request.form.get('children'))
+#     date = request.form.get('booking_date')
+#     number_of_nights=int(request.form.get('number_of_days'))
+#     adr=float(request.form.get('adr'))
+#
+#     date_time_obj = dt.datetime.strptime(date, '%Y-%m-%d')
+#     Recency=(getLatestTime(2018,1,1)-date_time_obj).days
+#     Frequency=babys+children+adults
+#     Monetary=adr*number_of_nights
+#
+#     B_pred=B_model.predict(x)
+#     B_output= round(B_pred[0])
+#
+#     x = pd.DataFrame([[Recency, Frequency, Monetary]])
+#     S_pred = S_model.predict(x)
+#     S_output = round(S_pred[0])
+#
+#
+#     output = cl.GetDetailsOfCluster("cltData.csv", 1200000, 'custom', S_output)
+#     details={}
+#     details['food']=max(output[S_output]['food'],key=output[S_output]['food'].get)
+#     details['room']=max(output[S_output]['roomcount'],key=output[S_output]['roomcount'].get)
+#     output=cl.FinancialOfferCalculations([2015,2017],['January','August','July'],40)['segment_discount_percentage']
+#     details['discount']=''
+#     if (S_output in output.keys()):
+#         details['discount']=str(round(output[S_output]))+'%'
+#     else:
+#         details['discount']='No Discount'
+#     details['lead_time']=ariving_date
+#     if(ariving_date>25 ):
+#         details['text']='The Guest passed the maximum No of arrival days in this segment ,Try to book before 25 no of days'
+#     else:
+#         details['text']=''
+#
+#     if B_pred ==1:
+#         return render_template('bad.html', out=details)
+#     else:
+#         return render_template('good.html', out=details, child=children, adu=adults)
 
 
 # @app.route('/Dashbord', methods=['POST', 'GET'])
