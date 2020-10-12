@@ -42,12 +42,12 @@ def monthly_transaction_avg(data_frame):
     return averageList, sumList, yearlist
 
 
-output2 = monthly_transaction_avg(toCSV('correct_cluster.csv'))
+
 
 def dictionryOutput():
     adrDic = {}
     adrTotal = {}
-
+    output2 = monthly_transaction_avg( toCSV( 'correct_cluster.csv' ) )
     for i in output2[0]:
         # print(i)
         adrInDic = {}
