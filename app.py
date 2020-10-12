@@ -288,7 +288,7 @@ yearlist = de.yearList()
 
 #yuvin code end
 @app.route('/')
-@app.route('/Workspace')
+# @app.route('/Workspace')
 def index():
     return 'hello world'
 
