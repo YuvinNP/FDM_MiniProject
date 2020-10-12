@@ -345,46 +345,46 @@ def predict():
         return render_template('good.html', out=details, child=children, adu=adults)
 
 
-@app.route('/Dashbord', methods=['POST', 'GET'])
-def showLineChart():
-    line_labels = labels
-    print(line_labels)
-    line_avg_total = avgTotal
-    season1_line = ''
-    line_avg = avgValues
-    season1_total = season1Total
-    season2_total = season2Total
-    season3_total = season3Total
-    var_yearlist = ['F-Year 1', 'F-Year 2', 'F-Year 3']
-
-    if request.method == 'POST':
-        content1 = request.form['cyear']
-        content2 = request.form['pyear']
-        line_comparison = content1 + " vs " + content2
-        if content1 == 'F-Year 1':
-            season1_line = season1
-        elif content1 == 'F-Year 2':
-            season1_line = season2
-        else:
-            season1_line = season3
-
-        if content2 == 'season1':
-            season2_line = season1
-        elif content2 == 'season2':
-            season2_line = season2
-        else:
-            season2_line = season2
-        return render_template('charts.html', title='Bitcoin Monthly Price in USD', max=200, labels=line_labels, values2 = season1_line, values3 = season2_line, avgValues = line_avg, yearlist = var_yearlist, comparison = line_comparison )
-        # return (content1+content2)
-    else:
-        season1_line = season1
-        season2_line = season2
-        season3_line = season3
-
-        return render_template('charts.html', title='Bitcoin Monthly Price in USD', max=200, labels=line_labels,
-                               values2 = season1_line, values3 = season2_line, values4 = season3_line,
-                               avgValues = line_avg, avgTotal = line_avg_total, yearlist = var_yearlist,
-                               season1Total = season1_total, season2Total = season2_total, season3Total = season3_total )
+# @app.route('/Dashbord', methods=['POST', 'GET'])
+# def showLineChart():
+#     line_labels = labels
+#     print(line_labels)
+#     # line_avg_total = avgTotal
+#     # season1_line = ''
+#     # line_avg = avgValues
+#     # season1_total = season1Total
+#     # season2_total = season2Total
+#     # season3_total = season3Total
+#     var_yearlist = ['F-Year 1', 'F-Year 2', 'F-Year 3']
+#
+#     if request.method == 'POST':
+#         content1 = request.form['cyear']
+#         content2 = request.form['pyear']
+#         line_comparison = content1 + " vs " + content2
+#         if content1 == 'F-Year 1':
+#             season1_line = season1
+#         elif content1 == 'F-Year 2':
+#             season1_line = season2
+#         else:
+#             season1_line = season3
+#
+#         if content2 == 'season1':
+#             season2_line = season1
+#         elif content2 == 'season2':
+#             season2_line = season2
+#         else:
+#             season2_line = season2
+#         return render_template('charts.html', title='Bitcoin Monthly Price in USD', max=200, labels=line_labels, values2 = season1_line, values3 = season2_line, avgValues = line_avg, yearlist = var_yearlist, comparison = line_comparison )
+#         # return (content1+content2)
+#     else:
+#         season1_line = season1
+#         season2_line = season2
+#         season3_line = season3
+#
+#         return render_template('charts.html', title='Bitcoin Monthly Price in USD', max=200, labels=line_labels,
+#                                values2 = season1_line, values3 = season2_line, values4 = season3_line,
+#                                avgValues = line_avg, avgTotal = line_avg_total, yearlist = var_yearlist,
+#                                season1Total = season1_total, season2Total = season2_total, season3Total = season3_total )
 
 @app.route('/Discount')
 def getDiscount():
